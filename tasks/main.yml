@@ -1,1 +1,33 @@
+# Master Task for installing and configuring MariaDB,Apache & WORDPRESS
+- name: Installing epel-release and yum-utils to download updated version of PHP
+  yum: pkg={{ item }} state=present
+  with_items:
+   - epel-release
+   - yum-utils
+  tags: php
+
+
+- name: Installing PHP and other pkgs
+  yum: pkg={{ item }}  state=present
+  with_items:
+   - php
+   - php-common
+   - php-gd
+   - php-xml
+   - php-mbstring
+   - unzip
+   - wget
+  tags: php
+
+- name: Installing and Configuring MariaDB and MariaDB-CLient For WordBress
+  include_tasks: DataBase.yml
+  tags: database
+
+- name : Installing and configuring httpd server for WordBress
+  include_tasks: webserver.yml
+  tags: webserver
+
+- name: Dwonloading and configuring WordBress 
+  include_tasks: wordpress.yml
+  tags: wordpress
 
